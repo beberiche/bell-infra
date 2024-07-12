@@ -1,0 +1,10 @@
+aws_region: ap-northeast-2
+
+cluster_name: stc-eks
+replicaCount: 1
+
+backend_users_api_image: beberiche/stc-users-api:latest
+backend_users_api_name: stc-users-api
+backend_auth_api_iamge: beberiche/stc-auth-api:latest
+backend_auth_api_name: stc-auth-api
+
