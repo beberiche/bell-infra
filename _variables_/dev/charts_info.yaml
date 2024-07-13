@@ -1,10 +1,39 @@
 aws_region: ap-northeast-2
 
-cluster_name: stc-eks
-replicaCount: 1
+cluster_name: test-eks
 
-backend_users_api_image: beberiche/stc-users-api:latest
-backend_users_api_name: stc-users-api
-backend_auth_api_image: beberiche/stc-auth-api:latest
-backend_auth_api_name: stc-auth-api
+auth_api:
+  name: auth
+  replicaCount: 1
+  image:
+    repository: beberiche/stc-auth-api:latest
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 3000
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1024Mi
+    requests:
+      cpu: 400m
+      memory: 800Mi
+  
+# users_api
+users_api: 
+  name: users
+  replicaCount: 1
+  image:
+    repository: beberiche/stc-users-api:latest
+    pullPolicy: IfNotPresent
+  service:
+    type: LoadBalancer
+    port: 80
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1024Mi
+    requests:
+      cpu: 400m
+      memory: 800Mi
 

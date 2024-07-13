@@ -1,0 +1,11 @@
+auth_label_app: auth
+auth_service_name: auth-service
+auth_service_port: 3000
+auth_target_port: 3000
+auth_service_type: ClusterIP
+
+users_label_app: users
+users_service_name: users-service
+users_service_port: 80
+users_target_port: 3000
+users_service_type: LoadBalancer
