@@ -12,7 +12,6 @@ variable "cluster_name" {
 variable "auth_api_replica_count" {
   description = "Number of replicas for the auth API"
   type        = number
-  default     = 1
 }
 
 variable "auth_api_image_repository" {

@@ -29,5 +29,3 @@ spec:
           value: "mongodb+srv://whdgus269:KtZ7WZYwQb2MSNCn@cluster0.ofygbed.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
         - name: AUTH_API_ADDRESSS
           value: "auth-service.default:3000"
-      nodeSelector:
-        subnet: public

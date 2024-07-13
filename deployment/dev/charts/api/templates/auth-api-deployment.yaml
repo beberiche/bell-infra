@@ -25,5 +25,3 @@ spec:
           requests:
             cpu: {{ .Values.authApi.resources.requests.cpu }}
             memory: {{ .Values.authApi.resources.requests.memory }}
-      nodeSelector:
-        subnet: private
