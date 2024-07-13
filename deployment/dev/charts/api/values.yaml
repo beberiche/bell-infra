@@ -1,0 +1,34 @@
+authApi:
+  name: auth-api
+  replicaCount: 1
+  image:
+    repository: beberiche/test-auth-api:latest
+  service:
+    type: ClusterIP
+    port: 3000
+    targetPort: 3000
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1024Mi
+    requests:
+      cpu: 400m
+      memory: 800Mi
+  
+usersApi: 
+  name: users-api
+  replicaCount: 1
+  image:
+    repository: beberiche/test-users-api:latest
+  service:
+    type: LoadBalancer
+    port: 80
+    targetPort: 3000
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1024Mi
+    requests:
+      cpu: 400m
+      memory: 800Mi
+

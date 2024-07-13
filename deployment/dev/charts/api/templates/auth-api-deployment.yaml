@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+spec:
+  replicas: {{ .Values.authApi.replicaCount }}
+  selector:
+    matchLabels:
+      app: auth
+  template:
+    metadata:
+      labels:
+        app: auth
+    spec:
+      containers:
+      - name: auth-api
+        image: "{{ .Values.authApi.image.repository }}"
+        env:
+        - name: TOKEN_KEY
+          value: "terraform_assginment"
+        resources:
+          limits:
+            cpu: {{ .Values.authApi.resources.limits.cpu }}
+            memory: {{ .Values.authApi.resources.limits.memory }}
+          requests:
+            cpu: {{ .Values.authApi.resources.requests.cpu }}
+            memory: {{ .Values.authApi.resources.requests.memory }}
+      nodeSelector:
+        subnet: private

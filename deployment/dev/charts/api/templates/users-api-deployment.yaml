@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-deployment
+  labels:
+    app: users
+spec:
+  replicas: {{ .Values.usersApi.replicaCount }}
+  selector:
+    matchLabels:
+      app: users
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+      - name: users-api
+        image: "{{ .Values.usersApi.image.repository }}"
+        resources:
+          limits:
+            cpu: {{ .Values.usersApi.resources.limits.cpu }}
+            memory: {{ .Values.usersApi.resources.limits.memory }}
+          requests:
+            cpu: {{ .Values.usersApi.resources.requests.cpu }}
+            memory: {{ .Values.usersApi.resources.requests.memory }}
+        env:
+        - name: MONGODB_CONNECTION_URI
+          value: "mongodb+srv://whdgus269:KtZ7WZYwQb2MSNCn@cluster0.ofygbed.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+        - name: AUTH_API_ADDRESSS
+          value: "auth-service.default:3000"
+      nodeSelector:
+        subnet: public
