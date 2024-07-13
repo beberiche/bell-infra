@@ -21,3 +21,9 @@ variable "eks_cluster_info" {
   type        = any
   default     = null
 }
+
+variable "service_info" {
+  description = "service_info"
+  type        = any
+  default     = null
+}
