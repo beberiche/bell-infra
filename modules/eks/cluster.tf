@@ -24,4 +24,16 @@ resource "aws_eks_cluster" "eks_cluster" {
   tags = {
     Name = var.eks_cluster_info.cluster_name
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+data "aws_eks_cluster" "cluster" {
+  name = aws_eks_cluster.eks_cluster.name
+}
+
+data "aws_eks_cluster_auth" "cluster" {
+  name = aws_eks_cluster.eks_cluster.name
 }

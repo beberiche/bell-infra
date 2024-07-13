@@ -6,4 +6,8 @@ resource "aws_vpc" "vpc" {
   tags = {
     "Name" = "${var.common_info.env}-${var.vpc_info.vpc_name}"
   }
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
