@@ -8,7 +8,6 @@
 - [X] api 서버 내부 통신 환경 구현
 - [X] `AWS` 를 활용한 `CSP` 인프라 구현
 - [X] Helm chart 기반 배포
-- [ ] 모니터링/로깅 환경 설계 (ELK, Prometheus&Grafana)
 
 </br>
 </br>
@@ -16,45 +15,22 @@
 
 # 인프라 환경
 내부 통신만 진행하는 `Auth-api` 와, 실제 외부에 통신을 진행하는 `Users-api` 를 고려했을 때, 다음의 기술들이 필요하다고 판단했습니다.
-
-## EKS
-과제 수행에 반드시 필요한 기술 입니다.
-
-## Terraform
-과제 수행에 반드시 필요한 기술 입니다.
-
-## AWS VPC
-각 서버와 `DB` 의 업무에 따라 작업 영역을 적절히 배치할 필요가 있다고 생각했습니다. `Users-api` 를 위한 `public subnet` 과, `DB, Auth-api` 를 위한 `private subnet1`, `private subnet2` 로 크게 3가지로 영역을 나눴습니다.
-
-## ELB
-`Users-api` ,`Auth-api` 통신을 위한 `Kubernetes Service` 를 적용합니다. 특히 `Users-api` 는 외부 통신 및 스케일링을 통한 부하분산을 작업해줄 `LoadBalancer` 가 필요하여 `ELB` 를 채택했습니다.
-
-`Auth-api` 의 `Kubernetes Service` 는 클러스터 내의 통신만 가능하면 되므로 `ClusterIP` 타입을 적용해습니다.
-
-## IAM
-`EKS` 를 사용하기 위해서는 반드시 적용되어야 하는 요소로, 클러스터의 제어권을 위한 권한과 `NodeGroup`의 워커 노드의 제어를 위한 권한이 필요하여 적용했습니다.
-
-> `EKS` - `AmazonEKSClusterPolicy` , `AmazonEKSVPCResourceController`
-> 
-> `NodeGroup` - `AmazonEC2ContainerRegistryReadOnly`, `AmazonEKS_CNI_Policy` , `AmazonEKSWorkerNodePolicy`
-
-## EC2
-향후 `NodeGroup` 에서 생성하는 워커 노드를 `EC2` 인스턴스로 적용했습니다.
-
-## Helm
-`back-end` 환경에 대한 배포를 위해 적용했습니다. `Terrform` 이 `Helm Chart` 정보를 읽어드려, 배포에 적용하는 방식으로 구현했습니다.
+- EKS : 쿠버네티스 환경 구성을 위해 필요한 서비스 입니다.
+- Terraform : AWS 인프라에 대한 라이프사이클을 관리합니다.
+- AWS VPC : 각 서버와 `DB` 의 업무에 따라, 작업 영역을 적절히 배치할 필요가 있어, 크게 `Public-subnet`, `Private-subnet1(server)` , `Private-subnet2(DB)`로 나누었습니다.
+- ELB : 외부 요청을 수용하기 위한 `Kubernets service` 에 대한 인프라 구현을 위해 적용했습니다. 각 컨테이너는 부하에 따른 오토스케일링이 적용되어 있으므로, 각 서버 인스턴스에 대한, 부하 분산 작업을 처리합니다.
+- IAM : `EKS` 에 대해, `VPC` 및 `WorkerNode` 에 대한 제어 권한을 설정하기 위해 반영했습니다.
+- EC2 : `WorkerNode` 에 대한 인프라 환경을 구성하기 위해 해당 서비스를 적용했습니다.
+- Helm : `back-end` 에 대한 배포 파이프라인을 구축하고자 적용했습니다. `Terraform` 프로젝트 내에서 `Chart` 정보를 읽어드려, 최신화된 컨테이너를 배포합니다.
 
 </br>
 </br>
 
 
 # 인프라 구성도
-본래 `DynamoDB` 를 활용한 `private subnet 2` 공간에 넣으려 했으나, 시간관계상 그 부분은 구현하지 못했습니다.
-
-현재는 `MongoDB` 자체 클러스터를 인프라 외부에 있습니다.
+본래 `DynamoDB` 를 활용하여, `Private-subnet2` 공간에 `DB` 를 배치하려 했으나, `MongoDB` 의 경우, 자체 무료 클러스터를 제공하여, 원격 요청에 대한 설정을 지정할 수 있다는 것을 파악했고, 인프라 환경에 외부에 배치하도록 적용했습니다.
 
 ![인프라 환경](./images/인프라%20환경.png)
-
 
 # 소모 시간도
 ![environment](./images/environment.png)
@@ -63,8 +39,6 @@
 
 ## distribution(helm)
 20초 이하 (back-end 만 가정)
-
-
 
 
 # 프로젝트 구조
