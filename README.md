@@ -1,13 +1,10 @@
 # 기획 단계
 
-### 필수 작업 사항
+### 작업 사항
 - [X] `kubernetes` 기반 인프라 환경 구현
-- [X] `Terraform` 적용
-
-### 추가 작업 사항
 - [X] api 서버 내부 통신 환경 구현
-- [X] `AWS` 를 활용한 `CSP` 인프라 구현
-- [X] Helm chart 기반 배포
+- [X] `Terraform` 인프라 설계 `CSP` 적용
+- [X] `Helm chart` 기반 배포
 
 </br>
 </br>
